@@ -1,60 +1,52 @@
 ﻿using API.Models;
 using API.Models.Context;
+using API.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Services.Implementations
 {
     public class PersonServices : IPersonServices
     {
-        private readonly MSSQLContext _context;
+        private IPersonRepository _personRepository;
 
-        public PersonServices(MSSQLContext context)
+        public PersonServices(IPersonRepository personRepository)
         {
-            _context = context;
+            _personRepository = personRepository;
         }
 
         public async Task<IEnumerable<Person>> GetAllAsync()
         {
-            return await _context.Persons.ToListAsync();
+            return await _personRepository.GetAllAsync();
         }
 
         public async Task<Person?> GetByIdAsync(long id)
         {
-            return await _context.Persons.FindAsync(id);
+            return await _personRepository.GetByIdAsync(id);
         }
 
         public async Task<Person> CreateAsync(Person person)
         {
-            _context.Persons.Add(person);
-            await _context.SaveChangesAsync();
-
-            return person;
+            return await _personRepository.CreateAsync(person);
         }
 
         public async Task<Person?> UpdateAsync(Person person)
         {
-            var existingPerson = _context.Persons.FindAsync(person.Id);
+            var existingPerson =    _personRepository.GetByIdAsync(person.Id);
             if (existingPerson == null)
                 return null;
 
-            _context.Entry(existingPerson).CurrentValues.SetValues(person);
-
-            await _context.SaveChangesAsync();
+            _personRepository.UpdateAsync(person);
 
             return person;
         }
 
         public async Task<bool> DeleteAsync(long id)
         {
-            var existingPerson = await _context.Persons.FindAsync(id);
+            var existingPerson = await _personRepository.GetByIdAsync(id);
             if (existingPerson == null)
                 return false;
 
-            _context.Persons.Remove(existingPerson);
-
-            await _context.SaveChangesAsync();
-
-            return true;
+            return await _personRepository.DeleteAsync(id);
         }
     }
 }

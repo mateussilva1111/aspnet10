@@ -1,4 +1,6 @@
 using API.Configuration;
+using API.Repositories;
+using API.Repositories.Implementations;
 using API.Services;
 using API.Services.Implementations;
 
@@ -12,6 +14,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddDatabaseConfiguration(builder.Configuration);
 builder.Services.AddScoped<IPersonServices, PersonServices>();
+builder.Services.AddScoped<IPersonRepository, PersonRepository>();
 
 var app = builder.Build();
 
