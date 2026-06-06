@@ -4,6 +4,8 @@ using API.Services.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddSeriLogLogging();
+
 // Add services to the container.
 
 builder.Services.AddControllers();
