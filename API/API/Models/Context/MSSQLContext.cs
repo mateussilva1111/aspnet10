@@ -7,5 +7,6 @@ namespace API.Models.Context
         public MSSQLContext(DbContextOptions<MSSQLContext> options) 
             : base(options) {}
         public DbSet<Person> Persons { get; set; }
+        public DbSet<Books> Books { get; set; }
     }
 }
