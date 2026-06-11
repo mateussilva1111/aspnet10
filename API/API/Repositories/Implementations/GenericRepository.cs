@@ -27,7 +27,7 @@ namespace API.Repositories.Implementations
         public async Task<T> CreateAsync(T item)
         {
             _dataSet.Add(item);
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             return item;
         }

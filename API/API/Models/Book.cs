@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace API.Models
 {
     [Table("books")]
-    public class Books : BaseEntity
+    public class Book : BaseEntity
     {
         [Required]
         [Column("title", TypeName = "Varchar(Max)")]

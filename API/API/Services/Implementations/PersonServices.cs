@@ -7,46 +7,46 @@ namespace API.Services.Implementations
 {
     public class PersonServices : IPersonServices
     {
-        private IPersonRepository _personRepository;
+        private IRepository<Person> _repository;
 
-        public PersonServices(IPersonRepository personRepository)
+        public PersonServices(IRepository<Person> repository)
         {
-            _personRepository = personRepository;
+            _repository = repository;
         }
 
         public async Task<IEnumerable<Person>> GetAllAsync()
         {
-            return await _personRepository.GetAllAsync();
+            return await _repository.GetAllAsync();
         }
 
         public async Task<Person?> GetByIdAsync(long id)
         {
-            return await _personRepository.GetByIdAsync(id);
+            return await _repository.GetByIdAsync(id);
         }
 
         public async Task<Person> CreateAsync(Person person)
         {
-            return await _personRepository.CreateAsync(person);
+            return await _repository.CreateAsync(person);
         }
 
         public async Task<Person?> UpdateAsync(Person person)
         {
-            var existingPerson =    _personRepository.GetByIdAsync(person.Id);
+            var existingPerson =  await _repository.GetByIdAsync(person.Id);
             if (existingPerson == null)
                 return null;
 
-            _personRepository.UpdateAsync(person);
+            _repository.UpdateAsync(person);
 
             return person;
         }
 
         public async Task<bool> DeleteAsync(long id)
         {
-            var existingPerson = await _personRepository.GetByIdAsync(id);
+            var existingPerson = await  _repository.GetByIdAsync(id);
             if (existingPerson == null)
                 return false;
 
-            return await _personRepository.DeleteAsync(id);
+            return await _repository.DeleteAsync(id);
         }
     }
 }

@@ -5,47 +5,46 @@ namespace API.Services.Implementations
 {
     public class BooksServices : IBooksServices
     {
-        private IBooksRepository _booksRepository;
+        private IRepository<Book> _repository;
 
-        public BooksServices(IBooksRepository booksRepository)
+        public BooksServices(IRepository<Book> repository)
         {
-            _booksRepository = booksRepository;
+            _repository = repository;
         }
 
-        public async Task<IEnumerable<Books>> GetAllAsync()
+        public async Task<IEnumerable<Book>> GetAllAsync()
         {
-            return await _booksRepository.GetAllAsync();
+            return await _repository.GetAllAsync();
         }
 
-        public async Task<Books?> GetByIdAsync(long id)
+        public async Task<Book?> GetByIdAsync(long id)
         {
-            return await _booksRepository.GetByIdAsync(id);
+            return await _repository.GetByIdAsync(id);
         }
 
-        public async Task<Books> CreateAsync(Books books)
+        public async Task<Book> CreateAsync(Book books)
         {
-            return await _booksRepository.CreateAsync(books);
-
+            return await _repository.CreateAsync(books);
         }
 
-        public async Task<Books?> UpdateAsync(Books books)
+        public async Task<Book?> UpdateAsync(Book books)
         {
-            var existingBook = await _booksRepository.GetByIdAsync(books.Id);
+            var existingBook = await _repository.GetByIdAsync(books.Id);
             if (existingBook == null)
                 return null;
 
-            _booksRepository.UpdateAsync(books);
+            await _repository.UpdateAsync(books);
 
             return books;
         }
 
         public async Task<bool> DeleteAsync(long id)
         {
-            var existingBook = await _booksRepository.GetByIdAsync(id);
+            var existingBook = await _repository.GetByIdAsync(id);
             if (existingBook == null)
                 return false;
 
-            return await _booksRepository.DeleteAsync(id);
+            return await _repository.DeleteAsync(id);
         }
     }
 }

@@ -43,7 +43,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Books book)
+        public async Task<IActionResult> Post([FromBody] Book book)
         {
             _logger.LogInformation("Creating a new book with title {Title}", book.Title);
             var createdBook = await _booksServices.CreateAsync(book);
@@ -56,7 +56,7 @@ namespace API.Controllers
         }
 
         [HttpPut()]
-        public async Task<IActionResult> Put([FromBody] Books book)
+        public async Task<IActionResult> Put([FromBody] Book book)
         {
             _logger.LogInformation("Updating book with id {Id}", book.Id);
             var updatedBook = await _booksServices.UpdateAsync(book);
