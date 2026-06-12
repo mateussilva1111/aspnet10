@@ -1,5 +1,7 @@
-﻿using API.Models;
+﻿using API.Data.Dto;
+using API.Models;
 using API.Repositories;
+using Mapster;
 
 namespace API.Services.Implementations
 {
@@ -12,35 +14,36 @@ namespace API.Services.Implementations
             _repository = repository;
         }
 
-        public async Task<IEnumerable<Book>> GetAllAsync()
+        public async Task<IEnumerable<BookDto>> GetAllAsync()
         {
-            return await _repository.GetAllAsync();
+            return  _repository.GetAllAsync().Adapt<IEnumerable<BookDto>>();
         }
 
-        public async Task<Book?> GetByIdAsync(long id)
+        public async Task<BookDto?> GetByIdAsync(long id)
         {
-            return await _repository.GetByIdAsync(id);
+            return  _repository.GetByIdAsync(id).Adapt<BookDto?>();
         }
 
-        public async Task<Book> CreateAsync(Book books)
+        public async Task<BookDto> CreateAsync(BookDto book)
         {
-            return await _repository.CreateAsync(books);
+            var entity = book.Adapt<Book>();
+            return _repository.CreateAsync(entity).Adapt<BookDto>();
         }
 
-        public async Task<Book?> UpdateAsync(Book books)
+        public async Task<BookDto?> UpdateAsync(BookDto book)
         {
-            var existingBook = await _repository.GetByIdAsync(books.Id);
+            var existingBook =  _repository.GetByIdAsync(book.Id).Adapt<BookDto?>();
             if (existingBook == null)
                 return null;
+            var entity = book.Adapt<Book>();
+            await _repository.UpdateAsync(entity);
 
-            await _repository.UpdateAsync(books);
-
-            return books;
+            return entity.Adapt<BookDto>();
         }
 
         public async Task<bool> DeleteAsync(long id)
         {
-            var existingBook = await _repository.GetByIdAsync(id);
+            var existingBook = _repository.GetByIdAsync(id).Adapt<BookDto?>();
             if (existingBook == null)
                 return false;
 

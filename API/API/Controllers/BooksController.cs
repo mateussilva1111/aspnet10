@@ -1,5 +1,7 @@
-﻿using API.Models;
+﻿using API.Data.Dto;
+using API.Models;
 using API.Services;
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -46,7 +48,8 @@ namespace API.Controllers
         public async Task<IActionResult> Post([FromBody] Book book)
         {
             _logger.LogInformation("Creating a new book with title {Title}", book.Title);
-            var createdBook = await _booksServices.CreateAsync(book);
+            var entity = book.Adapt<BookDto>();
+            var createdBook = await _booksServices.CreateAsync(entity);
             if (createdBook == null)
             {
                 _logger.LogError("Failed to create book with title {Title}", book.Title);
@@ -59,7 +62,8 @@ namespace API.Controllers
         public async Task<IActionResult> Put([FromBody] Book book)
         {
             _logger.LogInformation("Updating book with id {Id}", book.Id);
-            var updatedBook = await _booksServices.UpdateAsync(book);
+            var entity = book.Adapt<BookDto>();
+            var updatedBook = await _booksServices.UpdateAsync(entity);
             if (updatedBook == null)
             {
                 _logger.LogError("Failed to update book with id {Id}", book.Id);

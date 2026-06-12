@@ -1,14 +1,15 @@
-﻿using API.Models;
+﻿using API.Data.Dto;
+
 
 namespace API.Services
 {
     public interface IPersonServices
     {
 
-        Task<IEnumerable<Person>> GetAllAsync();
-        Task<Person> GetByIdAsync(long id);
-        Task<Person> CreateAsync(Person person);
-        Task<Person> UpdateAsync(Person person);
+        Task<IEnumerable<PersonDTO>> GetAllAsync();
+        Task<PersonDTO> GetByIdAsync(long id);
+        Task<PersonDTO> CreateAsync(PersonDTO person);
+        Task<PersonDTO> UpdateAsync(PersonDTO person);
         Task<bool> DeleteAsync(long id);
     }
 }

@@ -1,43 +1,50 @@
-﻿using API.Models;
-using API.Models.Context;
+﻿using API.Data.Converter.Implementation;
+using API.Data.Dto;
+using API.Models;
 using API.Repositories;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Services.Implementations
 {
     public class PersonServices : IPersonServices
     {
         private IRepository<Person> _repository;
+        private PersonConverter _converter;
 
         public PersonServices(IRepository<Person> repository)
         {
             _repository = repository;
+            _converter = new PersonConverter();
         }
 
-        public async Task<IEnumerable<Person>> GetAllAsync()
+        public async Task<IEnumerable<PersonDTO>> GetAllAsync()
         {
-            return await _repository.GetAllAsync();
+            var peoples = await _repository.GetAllAsync();
+            return _converter.ParseList(peoples.ToList());
         }
 
-        public async Task<Person?> GetByIdAsync(long id)
+        public async Task<PersonDTO?> GetByIdAsync(long id)
         {
-            return await _repository.GetByIdAsync(id);
+            var person = await _repository.GetByIdAsync(id);
+            return _converter.Parse(person);    
         }
 
-        public async Task<Person> CreateAsync(Person person)
+        public async Task<PersonDTO> CreateAsync(PersonDTO person)
         {
-            return await _repository.CreateAsync(person);
+            var personModel = _converter.Parse(person);
+            var createdPerson = await _repository.CreateAsync(personModel);
+            return _converter.Parse(createdPerson);
         }
 
-        public async Task<Person?> UpdateAsync(Person person)
+        public async Task<PersonDTO?> UpdateAsync(PersonDTO person)
         {
             var existingPerson =  await _repository.GetByIdAsync(person.Id);
             if (existingPerson == null)
                 return null;
 
-            _repository.UpdateAsync(person);
+            var personModel = _converter.Parse(person);
+            await _repository.UpdateAsync(personModel);
 
-            return person;
+            return _converter.Parse(personModel);
         }
 
         public async Task<bool> DeleteAsync(long id)

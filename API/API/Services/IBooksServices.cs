@@ -1,13 +1,14 @@
-﻿using API.Models;
+﻿using API.Data.Dto;
+using API.Models;
 
 namespace API.Services
 {
     public interface IBooksServices
     {
-        Task<IEnumerable<Book>> GetAllAsync();
-        Task<Book> GetByIdAsync(long id);
-        Task<Book> CreateAsync(Book book);
-        Task<Book> UpdateAsync(Book book);
+        Task<IEnumerable<BookDto>> GetAllAsync();
+        Task<BookDto> GetByIdAsync(long id);
+        Task<BookDto> CreateAsync(BookDto book);
+        Task<BookDto> UpdateAsync(BookDto book);
         Task<bool> DeleteAsync(long id);
     }
 }

@@ -1,4 +1,5 @@
-﻿using API.Models;
+﻿using API.Data.Dto;
+using API.Models;
 using API.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,7 +44,7 @@ namespace API.Controllers
         }
         
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Person person)
+        public async Task<IActionResult> Post([FromBody] PersonDTO person)
         {
             _logger.LogInformation("Creating a new person with name {FirstName} {LastName}", person.FirstName, person.LastName);
             var createdPerson = await _personServices.CreateAsync(person);
@@ -56,7 +57,7 @@ namespace API.Controllers
         }
 
         [HttpPut()]
-        public async Task<IActionResult> Put([FromBody] Person person)
+        public async Task<IActionResult> Put([FromBody] PersonDTO person)
         {
             _logger.LogInformation("Updating person with id {Id}", person.Id);
             var updatedPerson = await _personServices.UpdateAsync(person);
