@@ -26,5 +26,7 @@ namespace API.Models
         [Required]
         [Column("gender")]
         public string Gender { get; set; }
+
+        //public DateTime? BrithDay { get; set; }
     }
 }
