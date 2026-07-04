@@ -10,9 +10,13 @@ builder.AddSeriLogLogging();
 
 // Add services to the container.
 
-builder.Services.AddControllers();
-
 builder.Services.AddControllers().AddContentNegotiationConfig();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddOpenApiConfig();
+builder.Services.AddSwaggerConfig();
+builder.Services.AddRouteConfig();
+
 builder.Services.AddDatabaseConfiguration(builder.Configuration);
 builder.Services.AddEvolveConfiguration(builder.Configuration, builder.Environment);
 builder.Services.AddScoped<IPersonServices, PersonServices>();
@@ -28,5 +32,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseSwaggerSpecification();
+app.UseScalarConfiguration();
 
 app.Run();

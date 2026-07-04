@@ -9,7 +9,7 @@ namespace API.Configuration
             return mvcBuilder.AddMvcOptions(static options =>
             {
                 options.RespectBrowserAcceptHeader = true;
-                options.ReturnHttpNotAcceptable = true;
+                options.ReturnHttpNotAcceptable = false;
                 options.FormatterMappings.SetMediaTypeMappingForFormat("json", MediaTypeHeaderValue.Parse("application/json"));
                 options.FormatterMappings.SetMediaTypeMappingForFormat("xml", MediaTypeHeaderValue.Parse("application/xml"));
             }).AddXmlSerializerFormatters();

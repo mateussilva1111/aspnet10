@@ -16,35 +16,39 @@ namespace API.Services.Implementations
 
         public async Task<IEnumerable<BookDto>> GetAllAsync()
         {
-            return  _repository.GetAllAsync().Adapt<IEnumerable<BookDto>>();
+            return (await _repository.GetAllAsync())
+                .Adapt<List<BookDto>>();
         }
 
-        public async Task<BookDto?> GetByIdAsync(long id)
+        public async Task<BookDto> GetByIdAsync(long id)        
         {
-            return  _repository.GetByIdAsync(id).Adapt<BookDto?>();
+            var entity = await _repository.GetByIdAsync(id); 
+            return entity.Adapt<BookDto>();
         }
 
         public async Task<BookDto> CreateAsync(BookDto book)
         {
             var entity = book.Adapt<Book>();
-            return _repository.CreateAsync(entity).Adapt<BookDto>();
+            var created = await _repository.CreateAsync(entity);
+            return created.Adapt<BookDto>();
         }
 
         public async Task<BookDto?> UpdateAsync(BookDto book)
         {
-            var existingBook =  _repository.GetByIdAsync(book.Id).Adapt<BookDto?>();
-            if (existingBook == null)
+            var existing = await _repository.GetByIdAsync(book.Id);
+            if (existing == null)
                 return null;
-            var entity = book.Adapt<Book>();
-            await _repository.UpdateAsync(entity);
 
-            return entity.Adapt<BookDto>();
+            var entity = book.Adapt<Book>();
+            var updated = await _repository.UpdateAsync(entity);
+
+            return updated.Adapt<BookDto>();
         }
 
         public async Task<bool> DeleteAsync(long id)
         {
-            var existingBook = _repository.GetByIdAsync(id).Adapt<BookDto?>();
-            if (existingBook == null)
+            var existing = await _repository.GetByIdAsync(id);
+            if (existing == null)
                 return false;
 
             return await _repository.DeleteAsync(id);

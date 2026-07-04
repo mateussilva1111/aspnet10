@@ -19,6 +19,9 @@ namespace API.Controllers
         }
 
         [HttpGet()]
+        [ProducesResponseType(typeof(PersonDTO), 200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public async Task<IActionResult> GetAll()
         {
             _logger.LogInformation("Getting all books");
@@ -32,6 +35,9 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Book), 200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public async Task<IActionResult> Get(int id)
         {
             _logger.LogInformation("Getting book with id {Id}", id);
@@ -45,6 +51,9 @@ namespace API.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(typeof(Book), 200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public async Task<IActionResult> Post([FromBody] Book book)
         {
             _logger.LogInformation("Creating a new book with title {Title}", book.Title);
@@ -59,6 +68,9 @@ namespace API.Controllers
         }
 
         [HttpPut()]
+        [ProducesResponseType(typeof(Book), 200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public async Task<IActionResult> Put([FromBody] Book book)
         {
             _logger.LogInformation("Updating book with id {Id}", book.Id);
@@ -73,6 +85,9 @@ namespace API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(Book), 200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public async Task<IActionResult> Delete(int id)
         {
             _logger.LogInformation("Deleting book with id {Id}", id);

@@ -1,5 +1,4 @@
 ﻿using API.Data.Dto;
-using API.Models;
 using API.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +17,9 @@ namespace API.Controllers
         }
 
         [HttpGet()]
+        [ProducesResponseType(typeof(IEnumerable<PersonDTO>), 200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public async Task<IActionResult> GetAll()
         {
             _logger.LogInformation("Getting all people");
@@ -31,6 +33,9 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(PersonDTO), 200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public async Task<IActionResult> Get(int id)
         {
             _logger.LogInformation("Getting person with id {Id}", id);
@@ -44,6 +49,9 @@ namespace API.Controllers
         }
         
         [HttpPost]
+        [ProducesResponseType(typeof(PersonDTO), 200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public async Task<IActionResult> Post([FromBody] PersonDTO person)
         {
             _logger.LogInformation("Creating a new person with name {FirstName} {LastName}", person.FirstName, person.LastName);
@@ -57,6 +65,9 @@ namespace API.Controllers
         }
 
         [HttpPut()]
+        [ProducesResponseType(typeof(PersonDTO), 200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public async Task<IActionResult> Put([FromBody] PersonDTO person)
         {
             _logger.LogInformation("Updating person with id {Id}", person.Id);
@@ -70,6 +81,9 @@ namespace API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(PersonDTO), 200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public async Task<IActionResult> Delete(int id)
         {
             _logger.LogInformation("Deleting person with id {Id}", id);
