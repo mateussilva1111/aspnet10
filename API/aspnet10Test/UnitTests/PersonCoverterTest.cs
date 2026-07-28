@@ -2,7 +2,7 @@
 using API.Data.Dto;
 using API.Models;
 
-namespace aspnet10Test
+namespace aspnet10Test.UnitTests
 {
     public  class PersonCoverterTest
     {

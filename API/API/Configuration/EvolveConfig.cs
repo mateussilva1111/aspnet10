@@ -18,20 +18,11 @@ namespace API.Configuration
                     throw new InvalidOperationException("Connection string 'MSSQLServerSQLConnection' not found.");
                 }
 
-
                 try
                 {
-                    using var evolveConnection = new SqlConnection(connectionString);
-                    var evolve = new Evolve(
-                        evolveConnection, 
-                        msg => Log.Information(msg))
-                    {
-                        Locations = new[] { "DB/Migrations", "DB/Datasets" },
-                        IsEraseDisabled = true,
-                    };
-                    evolve.Migrate();
+                    ExecuteMigrations(connectionString);                    
                 }
-                catch(Exception e ) 
+                catch (Exception e)
                 {
                     Log.Error("Database migration failed: {ErrorMessage}", e.Message);
                     throw;
@@ -39,6 +30,19 @@ namespace API.Configuration
             }
 
             return services;
+        }
+
+        public static void ExecuteMigrations(string connectionString)
+        {
+            using var evolveConnection = new SqlConnection(connectionString);
+            var evolve = new Evolve(
+                evolveConnection,
+                msg => Log.Information(msg))
+            {
+                Locations = new[] { "DB/Migrations", "DB/Datasets" },
+                IsEraseDisabled = true,
+            };
+            evolve.Migrate();
         }
     }
 }
