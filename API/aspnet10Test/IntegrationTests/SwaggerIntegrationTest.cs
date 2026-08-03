@@ -1,4 +1,5 @@
 ﻿using aspnet10Test.IntegrationTests.Tools;
+using Azure;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 
@@ -34,6 +35,20 @@ namespace aspnet10Test.IntegrationTests
             content.Should().Contain("\"openapi\": \"3.0.4\"");
             content.Should().Contain("\"title\": \"API asp.net 10\"");
             content.Should().Contain("/api/books");
+        }
+
+        [Fact]
+        public async Task GetSwaggerUi_ShouldReturnSwaggerUi()
+        {
+            //arragge & act
+            var response = await _httpClient.GetAsync("swagger-ui/index.html");
+
+            //Assert
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+            content.Should().NotBeNull();
+            content.Should().Contain("id=\"swagger-ui\"");
         }
     }
 }
