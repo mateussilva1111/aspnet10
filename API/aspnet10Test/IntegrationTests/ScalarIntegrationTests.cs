@@ -29,8 +29,7 @@ namespace aspnet10Test.IntegrationTests
             var content = await response.Content.ReadAsStringAsync();
             content.Should().NotBeNull();
             content.Should().Contain("API asp.net 10");
-        }
-       
+        } 
     }
 }
 
