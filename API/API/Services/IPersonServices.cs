@@ -11,5 +11,6 @@ namespace API.Services
         Task<PersonDTO> CreateAsync(PersonDTO person);
         Task<PersonDTO> UpdateAsync(PersonDTO person);
         Task<bool> DeleteAsync(long id);
+        Task<PersonDTO> DisableAsync(long id);
     }
 }

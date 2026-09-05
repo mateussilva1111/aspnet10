@@ -1,11 +1,13 @@
 ﻿using API.Data.Dto;
 using API.Services;
+//using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[EnableCors("DefaultOriginPolicy")]
     public class PersonController : ControllerBase
     {
         private IPersonServices _personServices;
@@ -20,6 +22,7 @@ namespace API.Controllers
         [ProducesResponseType(typeof(IEnumerable<PersonDTO>), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
+        //[EnableCors("LocalPolicy")]
         public async Task<IActionResult> GetAll()
         {
             _logger.LogInformation("Getting all people");
@@ -36,6 +39,7 @@ namespace API.Controllers
         [ProducesResponseType(typeof(PersonDTO), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
+        //[EnableCors("MultipleOriginPolicy")]
         public async Task<IActionResult> Get(int id)
         {
             _logger.LogInformation("Getting person with id {Id}", id);
@@ -94,6 +98,22 @@ namespace API.Controllers
                 return NotFound();
             }
             return Ok();
+        }
+
+        [HttpPatch("{id}")]
+        [ProducesResponseType(typeof(PersonDTO), 200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        public async Task<IActionResult> Patch(long id)
+        {
+            _logger.LogInformation("Patching person with id {Id}", id);
+            var updatedPerson = await _personServices.DisableAsync(id);
+            if (updatedPerson == null)
+            {
+                _logger.LogError("Failed to patch person with id {Id}", id);
+                return BadRequest();
+            }
+            return Ok(updatedPerson);
         }
 
     }

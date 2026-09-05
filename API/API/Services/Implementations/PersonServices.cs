@@ -2,15 +2,16 @@
 using API.Data.Dto;
 using API.Models;
 using API.Repositories;
+using Mapster;
 
 namespace API.Services.Implementations
 {
     public class PersonServices : IPersonServices
     {
-        private IRepository<Person> _repository;
+        private IPersonRepository _repository;
         private PersonConverter _converter;
 
-        public PersonServices(IRepository<Person> repository)
+        public PersonServices(IPersonRepository repository)
         {
             _repository = repository;
             _converter = new PersonConverter();
@@ -54,6 +55,13 @@ namespace API.Services.Implementations
                 return false;
 
             return await _repository.DeleteAsync(id);
+        }
+
+        public async Task<PersonDTO?> DisableAsync(long id)
+        {
+            
+            var entity = await _repository.Disable(id);
+            return entity?.Adapt<PersonDTO>();
         }
     }
 }

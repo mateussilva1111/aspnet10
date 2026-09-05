@@ -17,11 +17,14 @@ builder.Services.AddOpenApiConfig();
 builder.Services.AddSwaggerConfig();
 builder.Services.AddRouteConfig();
 
+builder.Services.AddCorsConfiguration(builder.Configuration);
+
 builder.Services.AddDatabaseConfiguration(builder.Configuration);
 builder.Services.AddEvolveConfiguration(builder.Configuration, builder.Environment);
 builder.Services.AddScoped<IPersonServices, PersonServices>();
 builder.Services.AddScoped<IBooksServices, BooksServices>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IPersonRepository, PersonRepository>();
 
 var app = builder.Build();
 
@@ -32,6 +35,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCorsConfiguration(builder.Configuration);
 
 app.UseSwaggerSpecification();
 app.UseScalarConfiguration();

@@ -14,6 +14,7 @@ namespace aspnet10Test.IntegrationTests.Tools
         {
             Container = new MsSqlBuilder("mcr.microsoft.com/mssql/server:2022-latest")
                 .WithPassword("@Admin123")
+                .WithPortBinding(0, 1433)
                 .Build();
         }
 

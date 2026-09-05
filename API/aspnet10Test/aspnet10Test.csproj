@@ -44,4 +44,9 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="IntegrationTests\cors\" />
+    <Folder Include="IntegrationTests\Person\xml\" />
+  </ItemGroup>
+
 </Project>

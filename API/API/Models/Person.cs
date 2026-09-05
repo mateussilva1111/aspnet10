@@ -9,6 +9,9 @@ namespace API.Models
     {
 
         [Required]
+        public long Id { get; set; }
+
+        [Required]
         [Column("first_name", TypeName ="Varchar(80)")]
         [MaxLength(80)]
         public string FirstName { get; set; }
@@ -26,6 +29,9 @@ namespace API.Models
         [Required]
         [Column("gender")]
         public string Gender { get; set; }
+
+        [Column("enabled")]
+        public bool Enabled { get; set; }
 
         //public DateTime? BrithDay { get; set; }
     }
