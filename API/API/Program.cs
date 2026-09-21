@@ -1,4 +1,5 @@
 using API.Configuration;
+using API.Hypermedia;
 using API.Repositories;
 using API.Repositories.Implementations;
 using API.Services;
@@ -16,8 +17,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApiConfig();
 builder.Services.AddSwaggerConfig();
 builder.Services.AddRouteConfig();
-
 builder.Services.AddCorsConfiguration(builder.Configuration);
+builder.Services.AddHateoasConfiguration();
 
 builder.Services.AddDatabaseConfiguration(builder.Configuration);
 builder.Services.AddEvolveConfiguration(builder.Configuration, builder.Environment);
@@ -25,6 +26,7 @@ builder.Services.AddScoped<IPersonServices, PersonServices>();
 builder.Services.AddScoped<IBooksServices, BooksServices>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IPersonRepository, PersonRepository>();
+
 
 var app = builder.Build();
 
@@ -35,6 +37,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.UseHateoasRoutes();
 
 app.UseCorsConfiguration(builder.Configuration);
 

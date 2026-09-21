@@ -1,11 +1,13 @@
-﻿using API.JsonSerializer;
+﻿using API.Hypermedia;
+using API.Hypermedia.Abstract;
+using API.JsonSerializer;
 using API.Models.Base;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace API.Data.Dto
 {
-    public class PersonDTO : BaseEntity
+    public class PersonDTO : BaseEntity, ISuportHypermedia
     {
         [JsonPropertyOrder(1)]
         [JsonPropertyName("Id")]
@@ -32,5 +34,6 @@ namespace API.Data.Dto
 
         [Column("enabled")]
         public bool Enabled { get; set; }
+        public List<HypermediaLink> Links { get; set; } = [];
     }
 }
